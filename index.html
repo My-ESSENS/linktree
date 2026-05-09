@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Stepan Ludmila | ESSENS.md</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;1,600&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="favi.ico">
+    <style>
+        :root {
+            --bg-start: #f8f6f1;
+            --bg-end: #eae6db;
+            --primary-text: #1a1a1a;
+            --secondary-text: #606060;
+            --btn-bg: #2d2d2d;
+            --btn-text: #ffffff;
+            --btn-hover-bg: #1a1a1a;
+            --accent: #bda180; /* Culoarea stilizată pentru logouri */
+            --font-display: 'Cormorant Garamond', serif;
+            --font-body: 'Montserrat', sans-serif;
+            --shadow-premium: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: var(--font-body);
+            background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
+            color: var(--primary-text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px 60px 20px;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .main-wrapper {
+            width: 100%;
+            max-width: 480px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .profile-header {
+            margin-bottom: 30px; /* Redus puțin pentru a face loc iconițelor */
+            width: 100%;
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 25px auto;
+        }
+
+        .profile-pic {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #fff;
+            box-shadow: var(--shadow-premium);
+        }
+        
+        .avatar-container::after {
+            content: '';
+            position: absolute;
+            top: -5px; left: -5px; right: -5px; bottom: -5px;
+            border-radius: 50%;
+            border: 1px solid var(--accent);
+            opacity: 0.5;
+        }
+
+        .profile-name {
+            font-family: var(--font-display);
+            font-size: 38px;
+            font-weight: 500;
+            font-style: italic;
+            color: var(--primary-text);
+            line-height: 1.1;
+            margin-bottom: 8px;
+        }
+
+        .profile-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* --- Secțiunea NOUĂ: Social Icons --- */
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+
+        .social-link {
+            color: var(--accent); /* Logourile preiau culoarea gold mat */
+            font-size: 24px;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            color: var(--primary-text);
+            transform: translateY(-3px);
+        }
+
+        /* --- Restul stilurilor --- */
+        .links-stack {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 50px;
+        }
+
+        .link-btn {
+            display: block;
+            width: 100%;
+            padding: 20px 24px;
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            transition: var(--transition);
+            box-shadow: var(--shadow-premium);
+            border: 1px solid transparent;
+        }
+
+        .link-btn:hover {
+            background-color: var(--btn-hover-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.12);
+            border-color: var(--accent);
+        }
+        
+        .link-btn.featured {
+            background-color: #fff;
+            color: #1a1a1a;
+            border: 1px solid var(--accent);
+        }
+        
+        .link-btn.featured:hover {
+            background-color: var(--bg-start);
+        }
+
+        .contact-footer {
+            margin-top: auto;
+            width: 100%;
+            padding-top: 30px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .contact-info {
+            font-size: 13px;
+            color: var(--secondary-text);
+            line-height: 2;
+        }
+        
+        .contact-info a {
+            color: var(--primary-text);
+            text-decoration: none;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-wrapper">
+
+        <header class="profile-header">
+            <div class="avatar-container">
+                <img src="https://scontent.fkiv9-1.fna.fbcdn.net/v/t39.30808-1/474826568_2701826556673075_8008808099474862088_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=111&ccb=1-7&_nc_sid=1d2534&_nc_ohc=HCuBeksmGVIQ7kNvwH5Luze&_nc_oc=Adpg5hdiyhjR3hUma2qqMQKau6ZPvoEe2nJH6FMcF7etTTp4Jjn0i0q0gaOFtac6tfM&_nc_zt=24&_nc_ht=scontent.fkiv9-1.fna&_nc_gid=3dkFIYjQh6s6EB0U7X9LQQ&_nc_ss=7b2a8&oh=00_Af45q_gFXeR-TSEzZaHMfg2HHKoQWhWqft4l_Dz1nwZQDw&oe=6A052B39" alt="Profil" class="profile-pic">
+            </div>
+            <h1 class="profile-name">Stepan Ludmila</h1>
+            <p class="profile-title">Consultant ESSENS</p>
+        </header>
+
+        <div class="social-icons">
+            <a href="https://www.instagram.com/ludmila_stepan_?igsh=aTJlbGoxNnNudmFx" class="social-link" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.facebook.com/Ludmila.Stepan.3?mibextid=wwXIfr&rdid=BoCzpzbakewPg7bZ&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1B9p8xCPqy%2F%3Fmibextid%3DwwXIfr" class="social-link" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://wa.me/37378020655" class="social-link" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="https://www.tiktok.com/@stepanludmila?_r=1&_t=ZS-96DpUBV49Mj" class="social-link" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+        </div>
+
+        <main class="links-stack">
+            <a href="https://my.essens.com/830000081" class="link-btn featured" target="_blank" rel="noopener">
+                Comandă Produse Oficiale
+            </a>
+            
+            <a href="https://www.essens.md/r-830000081" class="link-btn" target="_blank" rel="noopener">
+                Alătură-te Echipei Mele
+            </a>
+        </main>
+
+        <footer class="contact-footer">
+            <div class="contact-info">
+                Poți să mă contactezi direct:<br>
+                📞 <a href="tel:+37378020655">+373 780 20 655</a><br><br>
+                <img width="200px" text-align="center" src="logo.png" alt="">
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>
