@@ -46,42 +46,20 @@
             100% { left: 150%; }
         }
 
-        /* --- ANIMAȚIE FLIP 3D REALĂ ȘI RAPIDĂ (O dată la 5 secunde, acțiune rapidă în 1.2s) --- */
+        /* --- ANIMAȚIE FLIP 3D REALĂ ȘI RAPIDĂ --- */
         @keyframes real3DFlip {
-            0% {
-                transform: perspective(800px) translateY(0) rotateY(0deg);
-            }
-            15% {
-                /* Ridicare rapidă cu jumătate de rotație */
-                transform: perspective(800px) translateY(-16px) rotateY(180deg);
-            }
-            30% {
-                /* Aterizare la rotație completă */
-                transform: perspective(800px) translateY(0) rotateY(360deg);
-            }
-            100% {
-                transform: perspective(800px) translateY(0) rotateY(360deg);
-            }
+            0% { transform: perspective(800px) translateY(0) rotateY(0deg); }
+            15% { transform: perspective(800px) translateY(-16px) rotateY(180deg); }
+            30% { transform: perspective(800px) translateY(0) rotateY(360deg); }
+            100% { transform: perspective(800px) translateY(0) rotateY(360deg); }
         }
 
-        /* --- ANIMAȚIE DINAMICĂ USERNAME (POP RAPID + GLOW) --- */
+        /* --- ANIMAȚIE DINAMICĂ USERNAME --- */
         @keyframes fastUsernamePop {
-            0% {
-                transform: scale(1);
-                text-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            }
-            15% {
-                transform: scale(1.15);
-                text-shadow: 0 0 15px rgba(255, 255, 255, 1), 0 0 25px rgba(255, 255, 255, 0.6);
-            }
-            30% {
-                transform: scale(1);
-                text-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            }
-            100% {
-                transform: scale(1);
-                text-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            }
+            0% { transform: scale(1); text-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+            15% { transform: scale(1.15); text-shadow: 0 0 15px rgba(255, 255, 255, 1), 0 0 25px rgba(255, 255, 255, 0.6); }
+            30% { transform: scale(1); text-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+            100% { transform: scale(1); text-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         }
 
         * {
@@ -99,8 +77,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
+            overflow-x: hidden; /* Blocăm doar overflow-ul mare al paginii generale */
         }
 
         body::before {
@@ -146,7 +124,7 @@
             animation: pulseText 1.5s ease-in-out infinite;
         }
 
-        /* --- CONTAINER PRINCIPAL --- */
+        /* --- CONTAINER PRINCIPAL (Lăsat liber pentru scroll vertical normal) --- */
         .container {
             width: 100%;
             max-width: 440px;
@@ -154,9 +132,6 @@
             flex-direction: column;
             align-items: center;
             padding: 20px 20px 30px 20px;
-            height: 100%;
-            overflow-y: auto;
-            scrollbar-width: none;
             opacity: 0;
             transition: opacity 0.4s ease;
         }
@@ -165,12 +140,12 @@
         body.loaded .top-nav { animation: fadeInUp 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
         body.loaded .profile { animation: fadeInUp 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.1s forwards; }
         body.loaded .di-radio-wrap { animation: fadeInUp 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.2s forwards; }
-        body.loaded .swipe-wrapper { animation: fadeInUp 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.3s forwards; }
+        body.loaded .swipe-container { animation: fadeInUp 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.3s forwards; }
         body.loaded .footer-copyright { animation: fadeInUp 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.4s forwards; }
 
-        .top-nav, .profile, .di-radio-wrap, .swipe-wrapper, .footer-copyright { opacity: 0; }
+        .top-nav, .profile, .di-radio-wrap, .swipe-container, .footer-copyright { opacity: 0; }
 
-        /* --- TOP NAVIGATION BAR ȘI DROPDOWN --- */
+        /* --- TOP NAVIGATION BAR --- */
         .top-nav {
             width: 100%;
             display: flex;
@@ -178,7 +153,6 @@
             align-items: center;
             margin-bottom: 16px;
             position: relative;
-            flex-shrink: 0;
             z-index: 10;
         }
 
@@ -238,11 +212,6 @@
             animation: fadeInMenu 0.2s ease forwards;
         }
 
-        @keyframes fadeInMenu {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
         .dropdown-item {
             display: flex;
             align-items: center;
@@ -260,17 +229,15 @@
         .dropdown-item:hover { background-color: rgba(0, 0, 0, 0.05); }
         .dropdown-item i { font-size: 14px; color: #555555; width: 16px; text-align: center; }
 
-        /* --- ARHITECTURĂ PROFIL CU FLIP 3D ÎN DOUĂ FEȚE --- */
+        /* --- PROFIL --- */
         .profile {
             text-align: center;
             margin-bottom: 24px;
-            flex-shrink: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        /* Containerul principal care menține perspectiva */
         .avatar-perspective {
             width: 96px;
             height: 96px;
@@ -278,17 +245,14 @@
             perspective: 800px;
         }
 
-        /* Elementul care efectiv se rotește */
         .avatar-flipper {
             width: 100%;
             height: 100%;
             position: relative;
             transform-style: preserve-3d;
-            /* Rulează bucla completă la fiecare 5 secunde, într-un mod dinamic și controlat */
             animation: real3DFlip 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
         }
 
-        /* Stil comun pentru ambele fețe ale cardului de profil */
         .avatar-face {
             position: absolute;
             width: 100%;
@@ -301,29 +265,9 @@
             overflow: hidden;
         }
 
-        /* FAȚA 1: Poza de profil originală */
-        .avatar-face.front {
-            background: #FFFFFF;
-            transform: rotateY(0deg);
-            z-index: 2;
-        }
-
-        .avatar-face.front img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* FAȚA 2: Spatele cardului (Apare fluid când se face flip-ul la 180deg) */
-        .avatar-face.back {
-            background: linear-gradient(135deg, #7499f1, #eec7e0);
-            transform: rotateY(180deg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #FFFFFF;
-            font-size: 26px;
-        }
+        .avatar-face.front { background: #FFFFFF; transform: rotateY(0deg); z-index: 2; }
+        .avatar-face.front img { width: 100%; height: 100%; object-fit: cover; }
+        .avatar-face.back { background: linear-gradient(135deg, #7499f1, #eec7e0); transform: rotateY(180deg); display: flex; align-items: center; justify-content: center; color: #FFFFFF; font-size: 26px; }
 
         .username {
             font-size: 22px;
@@ -331,22 +275,23 @@
             letter-spacing: -0.5px;
             color: #FFFFFF;
             display: inline-block;
-            /* Se mărește instant corelat cu flip-ul */
             animation: fastUsernamePop 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-            will-change: transform, text-shadow;
         }
 
         /* --- BUTOANE TABS --- */
         .di-radio-wrap {
             margin: 0 auto 32px auto;
             position: relative;
-            flex-shrink: 0;
+            width: 100%;
+            max-width: 320px;
         }
 
         .di-radio-input { display: none; }
 
         .di-radio-island {
-            background: transparent;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border-radius: 999px;
             padding: 4px;
             display: grid;
@@ -359,7 +304,7 @@
             color: rgba(255, 255, 255, 0.85);
             font-size: 16px;
             font-weight: 700;
-            padding: 12px 38px;
+            padding: 12px 0;
             text-align: center;
             border-radius: 999px;
             cursor: pointer;
@@ -386,16 +331,26 @@
         #r1:checked ~ .di-radio-island label[for="r1"],
         #r2:checked ~ .di-radio-island label[for="r2"] { color: #1a1a1a; }
 
-        /* --- STRUCTURĂ SWIPE --- */
-        .swipe-wrapper { width: 100%; position: relative; }
+        /* --- ZONA FIXATĂ DE SWIPE (Blochează axa X, lasă axa Y complet liberă) --- */
+        .swipe-container {
+            width: 100%;
+            overflow-x: hidden; /* ASCUNDE DOAR RUNNING-UL ÎN LATERAL */
+            overflow-y: visible; /* Lasă conținutul să curgă în jos natural */
+            position: relative;
+        }
+
         .swipe-track {
             display: flex;
-            width: 100%;
-            gap: 40px; 
+            width: 200%; /* Menținem cele 2 ecrane cap la cap */
             transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
-            transform: translateX(0px);
+            transform: translateX(0%);
         }
-        .tab-content { width: 100%; flex-shrink: 0; }
+
+        .tab-content {
+            width: 50%; /* Ocupă exact spațiul containerului vizual */
+            flex-shrink: 0;
+            padding: 2px 4px 10px 4px;
+        }
 
         /* --- LISTĂ LINKS --- */
         .links-list { display: flex; flex-direction: column; gap: 12px; width: 100%; }
@@ -415,7 +370,6 @@
             overflow: hidden; 
         }
 
-        /* REFLEXIE LATĂ PE BUTOANE */
         .link-item::after {
             content: '';
             position: absolute;
@@ -423,16 +377,10 @@
             left: -150%;
             width: 120px;
             height: 100%;
-            background: linear-gradient(
-                90deg,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.95) 50%, 
-                rgba(255, 255, 255, 0) 100%
-            );
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.95) 50%, rgba(255, 255, 255, 0) 100%);
             transform: skewX(-30deg);
             animation: slowUltraShine 7s cubic-bezier(0.25, 1, 0.5, 1) infinite;
             pointer-events: none;
-            mix-blend-mode: normal; 
         }
 
         .link-item:nth-child(1)::after { animation-delay: 0.0s; }
@@ -442,22 +390,11 @@
         .link-item:nth-child(5)::after { animation-delay: 1.2s; }
         .link-item:nth-child(6)::after { animation-delay: 1.5s; }
 
-        .link-item i {
-            font-size: 20px;
-            width: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            color: #4a4a4a;
-            position: relative;
-            z-index: 3;
-        }
-
+        .link-item i { font-size: 20px; width: 32px; display: flex; align-items: center; justify-content: flex-start; color: #4a4a4a; position: relative; z-index: 3; }
         .link-text-container { display: flex; flex-direction: column; text-align: left; position: relative; z-index: 3; }
         .link-title { font-size: 15px; font-weight: 600; }
         .link-item:hover { transform: scale(1.015); }
 
-        /* --- TEXTUL ESTETIC MORE --- */
         .more-indicator-text {
             text-align: center;
             width: 100%;
@@ -477,56 +414,12 @@
         }
         .more-indicator-text:hover { color: #FFFFFF; }
 
-        /* --- STIL SPECIAL MY WEBSITE --- */
-        .link-item.special-web {
-            background: #FFFFFF;
-            padding: 2px;
-            border-radius: 32px;
-            box-shadow: 0px 14px 32px rgba(116, 153, 241, 0.15);
-        }
-
+        /* --- WEB SPECIAL --- */
+        .link-item.special-web { background: #FFFFFF; padding: 2px; border-radius: 32px; box-shadow: 0px 14px 32px rgba(116, 153, 241, 0.15); }
         .link-item.special-web::after { display: none; }
-
-        .special-inner {
-            display: flex;
-            align-items: center;
-            width: 100%;
-            background: #FFFFFF;
-            padding: 16px 18px;
-            border-radius: 30px;
-            position: relative;
-            z-index: 1;
-            overflow: hidden;
-        }
-
-        .special-inner::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -150%;
-            width: 120px;
-            height: 100%;
-            background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.95) 50%, rgba(255, 255, 255, 0) 100%);
-            transform: skewX(-30deg);
-            animation: slowUltraShine 7s cubic-bezier(0.25, 1, 0.5, 1) infinite;
-            animation-delay: 0.0s; 
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        .link-item.special-web::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(90deg, #7499f1, #eec7e0, #7499f1);
-            background-size: 200% auto;
-            animation: borderGlow 4s linear infinite;
-            z-index: 0;
-        }
-
+        .special-inner { display: flex; align-items: center; width: 100%; background: #FFFFFF; padding: 16px 18px; border-radius: 30px; position: relative; z-index: 1; overflow: hidden; }
+        .special-inner::after { content: ''; position: absolute; top: 0; left: -150%; width: 120px; height: 100%; background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.95) 50%, rgba(255, 255, 255, 0) 100%); transform: skewX(-30deg); animation: slowUltraShine 7s cubic-bezier(0.25, 1, 0.5, 1) infinite; pointer-events: none; z-index: 2; }
+        .link-item.special-web::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(90deg, #7499f1, #eec7e0, #7499f1); background-size: 200% auto; animation: borderGlow 4s linear infinite; z-index: 0; }
         .special-web i { color: #7499f1; }
         .icon-external { margin-left: auto; color: #aaaaaa !important; font-size: 14px !important; width: auto !important; }
 
@@ -538,44 +431,15 @@
         .fa-envelope { color: #555555; }
 
         /* --- CARD FEATURED --- */
-        .collection-card {
-            background-color: #FFFFFF;
-            border-radius: 28px;
-            padding: 24px;
-            box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.04);
-            width: 100%;
-            display: block;
-            pointer-events: none;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-bottom: 24px;
-            justify-items: center;
-            align-items: center;
-        }
-
-        .product-thumb-placeholder {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 18px;
-            background: linear-gradient(135deg, rgba(235, 240, 255, 0.6), rgba(245, 247, 255, 0.8));
-            border: 1px dashed rgba(116, 153, 241, 0.25);
-            color: rgba(116, 153, 241, 0.4);
-            font-size: 18px;
-        }
-
+        .collection-card { background-color: #FFFFFF; border-radius: 28px; padding: 24px; box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.04); width: 100%; }
+        .products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; justify-items: center; align-items: center; }
+        .product-thumb-placeholder { width: 100%; aspect-ratio: 1 / 1; display: flex; justify-content: center; align-items: center; border-radius: 18px; background: linear-gradient(135deg, rgba(235, 240, 255, 0.6), rgba(245, 247, 255, 0.8)); border: 1px dashed rgba(116, 153, 241, 0.25); color: rgba(116, 153, 241, 0.4); font-size: 18px; }
         .collection-info { text-align: center; display: flex; justify-content: center; align-items: center; }
         .collection-text h2 { font-size: 16px; font-weight: 700; margin-bottom: 4px; color: #1a1a1a; }
         .collection-text p { font-size: 12px; color: #888888; }
 
         /* --- COPYRIGHT --- */
-        .footer-copyright { width: 100%; text-align: center; padding-top: 40px; font-size: 13px; color: rgba(255, 255, 255, 0.7); font-weight: 500; flex-shrink: 0; }
+        .footer-copyright { width: 100%; text-align: center; padding: 40px 0; font-size: 13px; color: rgba(255, 255, 255, 0.7); font-weight: 500; }
     </style>
 </head>
 <body>
@@ -602,21 +466,19 @@
                         <i class="fa-solid fa-share-nodes"></i> Share Profile
                     </div>
                     <div class="dropdown-item" onclick="alert('Thank you for your feedback!')">
-                        <i class="fa-solid fa-flag"></i> Report / Feedback
+                        <i class="fa-solid fa-flag"></i> Report
                     </div>
                 </div>
             </div>
         </div>
         
-        <!-- HEADER PROFIL CU STRUCTURĂ FLIP 3D AUTENTICĂ (FAȚĂ-SPATE) -->
+        <!-- HEADER PROFIL -->
         <header class="profile">
             <div class="avatar-perspective">
                 <div class="avatar-flipper">
-                    <!-- FAȚA 1: Imaginea ta curată -->
                     <div class="avatar-face front">
                         <img src="https://lh3.googleusercontent.com/d/1V5JO_4TXOcDwwBl8jcRKyLqy8NApeYoc" alt="Profile">
                     </div>
-                    <!-- FAȚA 2: Spatele cardului care elimină efectul de „dispoziție vidă” -->
                     <div class="avatar-face back">
                         <i class="fa-solid fa-star"></i>
                     </div>
@@ -637,15 +499,14 @@
             </div>
         </div>
 
-        <!-- Zona de Swipe -->
-        <div class="swipe-wrapper">
+        <!-- Zona de Swipe Securizată -->
+        <div class="swipe-container" id="swipeContainer">
             <div id="swipeTrack" class="swipe-track">
                 
                 <!-- ECRANUL 1: Links -->
                 <section class="tab-content">
                     <div class="links-list">
                         
-                        <!-- MY WEBSITE (Modificat cu target="_blank") -->
                         <a href="https://myessens.github.io/hub/" class="link-item special-web" target="_blank" rel="noopener">
                             <div class="special-inner">
                                 <i class="fa-solid fa-globe"></i>
@@ -656,7 +517,6 @@
                             </div>
                         </a>
 
-                        <!-- INSTAGRAM (Modificat cu https://, target="_blank" și rel="noopener") -->
                         <a href="https://instagram.com/ludmila_stepan_?igsh=aTJlbGoxNnNudmFx" class="link-item" target="_blank" rel="noopener">
                             <i class="fa-brands fa-instagram"></i>
                             <div class="link-text-container">
@@ -664,7 +524,6 @@
                             </div>
                         </a>
 
-                        <!-- TIKTOK (Modificat cu target="_blank") -->
                         <a href="https://www.tiktok.com/@stepanludmilaa?_r=1&_t=ZS-97hO8ajdQZQ" class="link-item" target="_blank" rel="noopener">
                             <i class="fa-brands fa-tiktok"></i>
                             <div class="link-text-container">
@@ -672,7 +531,6 @@
                             </div>
                         </a>
 
-                        <!-- WHATSAPP (Are deja target="_blank" din setări, adăugat doar rel="noopener") -->
                         <a href="https://api.whatsapp.com/send/?phone=37378020655&text&type=phone_number&app_absent=0" class="link-item" target="_blank" rel="noopener">
                             <i class="fa-brands fa-whatsapp"></i>
                             <div class="link-text-container">
@@ -680,7 +538,6 @@
                             </div>
                         </a>
 
-                        <!-- FACEBOOK (Modificat cu target="_blank") -->
                         <a href="https://www.facebook.com/Ludmila.Stepan.3" class="link-item" target="_blank" rel="noopener">
                             <i class="fa-brands fa-facebook"></i>
                             <div class="link-text-container">
@@ -688,8 +545,7 @@
                             </div>
                         </a>
 
-                        <!-- COLLABS (Modificat cu target="_blank") -->
-                        <a href="mailto:stepanludmila91@gmail.com?subject=Idee%20de%20colaborare&body=Bună!%20Ți-am%20văzut%20profilul%20și%20mi-aș%20dori%20mult%20să%20colaborăm.%20%0A%0ATe-ar%20interesa%20o%20discuție%20în%20sensul%20acesta%3F" class="link-item" target="_blank" rel="noopener">
+                        <a href="mailto:stepanludmila91@gmail.com?subject=Idee%20de%20colaborare&body=Bună!" class="link-item" target="_blank" rel="noopener">
                             <i class="fa-solid fa-envelope"></i>
                             <div class="link-text-container">
                                 <span class="link-title">Collabs & Business Inquiry</span>
@@ -743,9 +599,9 @@
         function updateSwipeView(tabName) {
             const track = document.getElementById('swipeTrack');
             if (tabName === 'links') {
-                track.style.transform = 'translateX(0px)';
+                track.style.transform = 'translateX(0%)';
             } else if (tabName === 'featured') {
-                track.style.transform = 'translateX(calc(-100% - 40px))';
+                track.style.transform = 'translateX(-50%)';
             }
         }
 
@@ -762,15 +618,40 @@
         function shareProfile() {
             const profileUrl = window.location.href;
             navigator.clipboard.writeText(profileUrl).catch(err => console.log(err));
-
             if (navigator.share) {
-                navigator.share({
-                    title: 'Isabelle - Linktree',
-                    text: 'Check out my links!',
-                    url: profileUrl
-                }).catch((err) => console.log('Share canceled:', err));
+                navigator.share({ title: 'Stepan Ludmila - Linktree', text: 'Check out my links!', url: profileUrl });
             } else {
                 alert('Link copied to clipboard!');
+            }
+        }
+
+        // --- GESTURI SWIPE ---
+        const container = document.getElementById('swipeContainer');
+        const radioLinks = document.getElementById('r1');
+        const radioFeatured = document.getElementById('r2');
+
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        container.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        container.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipeGesture();
+        }, { passive: true });
+
+        function handleSwipeGesture() {
+            const swipeDistance = touchStartX - touchEndX;
+            const minSwipeThreshold = 50;
+
+            if (swipeDistance > minSwipeThreshold && radioLinks.checked) {
+                radioFeatured.checked = true;
+                updateSwipeView('featured');
+            } else if (swipeDistance < -minSwipeThreshold && radioFeatured.checked) {
+                radioLinks.checked = true;
+                updateSwipeView('links');
             }
         }
     </script>
